@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-// these headers to connect our enitities in datamodel
-#import "Quiz.h"
-#import "Question.h"
-
 
 @class QWZQwizzleViewController;
 @class QWZQuizSet;
