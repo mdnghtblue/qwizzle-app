@@ -58,7 +58,9 @@
         
         CGRect labelFrame = CGRectMake(20, position, 250, 30);
         label = [[UILabel alloc] initWithFrame:labelFrame];
+        /// adding question data
         [label setText:[[NSString alloc] initWithFormat:@"%d.) %@", (i + 1), [quiz question]]];
+        //
         [label setBackgroundColor:[UIColor clearColor]];
         [label setNumberOfLines:0];
         [label setLineBreakMode:NSLineBreakByWordWrapping];
