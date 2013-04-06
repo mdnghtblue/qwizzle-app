@@ -11,8 +11,6 @@
 @implementation QWZQuizSet
 
 @synthesize title;
-@synthesize creator;
-@synthesize dateCreated;
 
 // The designated initializer
 - (id)initWithTitle:(NSString *)t
@@ -24,8 +22,6 @@
     if (self) {
         allQuizzes = [[NSMutableArray alloc] init];
         title = [t copy];
-        dateCreated = [[NSDate alloc] init]; // Initialize the date this quiz
-        creator = [[NSString alloc] initWithFormat:@"Lucy"]; // We will get it from the device somehow
     }
     
     // Return the address of the newly initialized object

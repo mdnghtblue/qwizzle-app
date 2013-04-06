@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Florida Tech. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 
 @class QWZQuizSet;
 @class QWZAnsweredQuizSet;
@@ -17,7 +16,7 @@
 // Implement UITableViewDelegate to set the label of the delete button
 // Optional methods of the protocol allow the delegate to manage selections,
 // configure section headings and footers, help to delete and reorder cells, and perform other actions...
-@interface QWZQwizzleViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
+@interface QWZQwizzleViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 {
     // This array stores all quiz sets
     NSMutableArray *allQuizSets;
@@ -29,13 +28,10 @@
     QWZQuizSet *selectedQuiz;
 }
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 - (void)submitAQwizzle:(QWZQuizSet *)qz;
 
 - (void)fillOutAQwizzle:(QWZAnsweredQuizSet *)qzAnswers;
-
-// A fetched results controller can read managed objects
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-
-- (void)loadQuizSet;
 
 @end

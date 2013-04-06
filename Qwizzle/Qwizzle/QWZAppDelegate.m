@@ -18,7 +18,6 @@
 
 @implementation QWZAppDelegate
 
-@synthesize window = _window;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -27,13 +26,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-//    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
-//    
-//    NSLog(@"test: %@", [navController.viewControllers[0] class]);
-//    
-//    // assign the managed object context to the initial view controller
-//    QWZQwizzleViewController *qvc = (QWZQwizzleViewController *)navController.childViewControllers[0];
-//    qvc.managedObjectContext = self.managedObjectContext;
+    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+    
+    NSLog(@"test: %@", [navController.viewControllers[0] class]);
+    
+    // assign the managed object context to the initial view controller
+    QWZQwizzleViewController *qvc = (QWZQwizzleViewController *)navController.childViewControllers[0];
+    qvc.managedObjectContext = self.managedObjectContext;
     
     /*
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -103,8 +102,6 @@
     }
 }
 
-#pragma mark - Core Data stack
-
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
 - (NSManagedObjectContext *)managedObjectContext
@@ -112,6 +109,8 @@
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
+    
+    NSLog(@"creating managed object context...");
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
@@ -128,7 +127,10 @@
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"QwizzleModel" withExtension:@"momd"];
+    
+    NSLog(@"creating managed object model...");
+    
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"QWZDataModel" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
@@ -141,7 +143,9 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"QWizzleModel.sqlite"];
+    NSLog(@"creating persistent store coordinator...");
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Qwizzle.sqlite"];
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -176,14 +180,11 @@
     return _persistentStoreCoordinator;
 }
 
-#pragma mark - Application's Documents directory
-
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
-
 
 
 @end
