@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="QWZAnsweredQuizEntity" representedClassName="QWZAnsweredQuizEntity" syncable="YES">
+        <attribute name="answer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
+        <attribute name="question" attributeType="String" syncable="YES"/>
+        <relationship name="containedBy" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="QWZAnsweredQuizSetEntity" inverseName="contains" inverseEntity="QWZAnsweredQuizSetEntity" syncable="YES"/>
+    </entity>
+    <entity name="QWZAnsweredQuizSetEntity" representedClassName="QWZAnsweredQuizSetEntity" syncable="YES">
+        <attribute name="creator" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="contains" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QWZAnsweredQuizEntity" inverseName="containedBy" inverseEntity="QWZAnsweredQuizEntity" syncable="YES"/>
+    </entity>
+    <entity name="QWZQuizEntity" representedClassName="QWZQuizEntity" syncable="YES">
+        <attribute name="answer" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
+        <attribute name="question" attributeType="String" syncable="YES"/>
+        <relationship name="containedBy" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="QWZQuizSetEntity" inverseName="contains" inverseEntity="QWZQuizSetEntity" syncable="YES"/>
+    </entity>
+    <entity name="QWZQuizSetEntity" representedClassName="QWZQuizSetEntity" syncable="YES">
+        <attribute name="creator" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" attributeType="Date" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="contains" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QWZQuizEntity" inverseName="containedBy" inverseEntity="QWZQuizEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="QWZAnsweredQuizSetEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZQuizEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZQuizSetEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZAnsweredQuizEntity" positionX="160" positionY="192" width="128" height="105"/>
+    </elements>
+</model>

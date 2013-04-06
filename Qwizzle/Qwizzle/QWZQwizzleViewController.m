@@ -15,6 +15,15 @@
 #import "QWZTakeQwizzleViewController.h"
 #import "QWZViewQwizzleViewController.h"
 
+// To get all Core Data Related Stuffs
+#import "QWZAppDelegate.h"
+
+// All Core Data entities
+#import "QWZAnsweredQuizEntity.h"
+#import "QWZAnsweredQuizSetEntity.h"
+#import "QWZQuizEntity.h"
+#import "QWZQuizSetEntity.h"
+
 @interface QWZQwizzleViewController ()
 
 @end
@@ -55,6 +64,78 @@
     [allQuizSets addObject:qs1];
     [allQuizSets addObject:qs2];
     [allAnsweredQuizSets addObject:aqs1];
+    
+    // Core Data Stuffs
+    /* Create the fetch request first */
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    /* Here is the entity whose contents we want to read */
+    NSEntityDescription *quizSetEntity = [NSEntityDescription entityForName:@"QWZQuizSetEntity"
+                                              inManagedObjectContext:[self managedObjectContext]];
+    
+    NSSortDescriptor *dateSort = [[NSSortDescriptor alloc] initWithKey:@"dateCreated" ascending:YES];
+    //NSSortDescriptor *titleSort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateSort, nil];
+    
+    fetchRequest.sortDescriptors = sortDescriptors;
+    
+    /* Tell the request that we want to read the contents of the Person entity */
+    [fetchRequest setEntity:quizSetEntity];
+    
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:nil];
+    self.fetchedResultsController.delegate = self;
+    
+    NSError *fetchingError = nil;
+    if ([self.fetchedResultsController performFetch:&fetchingError]) {
+        NSLog(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch.");
+    }
+    
+}
+
+- (void)loadQuizSet
+{
+    /* Create the fetch request first */
+    // a fetch request is similar to a SELECT statement
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    /* Here is the entity whose contents we want to read */
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"QWZQuizSetEntity"
+                                              inManagedObjectContext:[self managedObjectContext]];
+    
+    /* Tell the request that we want to read the contents of the Person entity */
+    [fetchRequest setEntity:entity];
+    
+    // Adding sort descriptor to sort the fetched data
+    NSSortDescriptor *dateSort = [[NSSortDescriptor alloc] initWithKey:@"dateCreated" ascending:YES];
+    //NSSortDescriptor *titleSort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:dateSort, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSError *requestError = nil;
+    
+    /* And execute the fetch request on the context */
+    NSArray *quizSet = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&requestError];
+    
+    if ([quizSet count] > 0) {
+        NSLog(@"Successfully loaded all quizSet...");
+        NSLog(@"There are %d quizSet inside the core data", [quizSet count]);
+        
+        NSUInteger counter = 1;
+        for (QWZQuizSetEntity *thisQuizSet in quizSet) {
+            NSLog(@"%d) QuizSet's title: %@", counter, [thisQuizSet title]);
+            
+            NSLog(@"There are %d quiz inside this quizSet!", [[[thisQuizSet contains] allObjects] count]);
+            
+            counter++;
+        }
+    } else {
+        NSLog(@"Could not find any Person entities in the context.");
+    }
+
 }
 
 // Implement this method if there is anything needed to be configure before the view appear on-screen
@@ -62,6 +143,8 @@
 {
     [super viewWillAppear:animated];
     [[self tableView] reloadData];
+    
+    [self loadQuizSet];
 }
 
 - (void)submitAQwizzle:(QWZQuizSet *)qz
@@ -76,6 +159,50 @@
     
     // Insert this Qwizzle into the table
     [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
+    
+    // Updating Core Data
+    // Getting the App's delegate from the singleton application instance
+    QWZAppDelegate *appDelegate = (QWZAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    // Getting the managedObjectContext
+    NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
+    
+    // Creating new QuizSetEntity and save it into the context
+    QWZQuizSetEntity *newQuizSet = [NSEntityDescription insertNewObjectForEntityForName:@"QWZQuizSetEntity" inManagedObjectContext:managedObjectContext];
+    
+    if (newQuizSet != nil) {
+        [newQuizSet setTitle:[qz title]];
+        [newQuizSet setCreator:[qz creator]];
+        [newQuizSet setDateCreated:[qz dateCreated]];
+        
+        NSError *savingError = nil;
+        if ([managedObjectContext save:&savingError]) {
+            NSLog(@"Successfully add a new quizset: %@", newQuizSet);
+        } else {
+            NSLog(@"Failed to save the managed object context");
+        }
+    }
+    else {
+        NSLog(@"Failed to create the new person object");
+    }
+    
+    // Adding quizzes into the QuizSetEntity
+    QWZQuizEntity *newQuiz = nil;
+    //[newQuiz setQuestion:[qz]]
+    NSArray *allQuizzes = [qz allQuizzes];
+    for (NSInteger i = 0; i < [allQuizzes count]; i++) {
+        newQuiz = [NSEntityDescription insertNewObjectForEntityForName:@"QWZQuizEntity" inManagedObjectContext:managedObjectContext];
+        [newQuiz setQuestion:[[allQuizzes objectAtIndex:i] question]];
+        [newQuiz setDateCreated:[[allQuizzes objectAtIndex:i] dateCreated]];
+        [newQuiz setContainedBy:newQuizSet];
+        
+        NSError *savingError = nil;
+        if ([managedObjectContext save:&savingError]) {
+            NSLog(@"Successfully add a new quiz: %@ into %@", newQuiz, newQuizSet);
+        } else {
+            NSLog(@"Failed to save the managed object context");
+        }
+    }
 }
 
 - (void)fillOutAQwizzle:(QWZAnsweredQuizSet *)qzAnswers
@@ -224,6 +351,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark managedObjectContext stuffs
+// Get the managedObjectContext from the app delegate
+- (NSManagedObjectContext *)managedObjectContext
+{
+    QWZAppDelegate *appDelegate = (QWZAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
+    
+    return managedObjectContext;
 }
 
 @end
