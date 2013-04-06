@@ -12,18 +12,11 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-////////////////////////////
-// Objects for Core Data
-// The bridge between application interface and the managed object model
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-// The database's schema
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-
-// The bridge between the physical file that stores our data and our application
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-- (void)saveContext; // Initiate saving all data inside the context
-- (NSURL *)applicationDocumentsDirectory; // Getting application directory that saves all the database file
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 @end
