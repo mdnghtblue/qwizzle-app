@@ -182,6 +182,7 @@
     return qwz_id;
     
 }
+
  //get last record nubmer for question 
 -(NSInteger)getQuestionID{
     NSFetchRequest *questionFetchRequest = [[NSFetchRequest alloc] init];
@@ -198,7 +199,7 @@
 {
     
     NSLog(@"Submitting a Qwizzle, validation in process");
-     /* 
+   
     NSInteger qwz_id=[self getQuizID];
     NSInteger q_id=[self getQuestionID];
     

@@ -48,12 +48,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8186C2F81703E5AF00CB5BDF /* Answers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Answers.h; sourceTree = "<group>"; };
-		8186C2F91703E5AF00CB5BDF /* Answers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Answers.m; sourceTree = "<group>"; };
-		8186C2FB1703E5B000CB5BDF /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
-		8186C2FC1703E5B000CB5BDF /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
-		8186C2FE1703E5B000CB5BDF /* Quiz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quiz.h; sourceTree = "<group>"; };
-		8186C2FF1703E5B100CB5BDF /* Quiz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quiz.m; sourceTree = "<group>"; };
+		8186C2F81703E5AF00CB5BDF /* Answers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Answers.h; path = Qwizzle/Answers.h; sourceTree = "<group>"; };
+		8186C2F91703E5AF00CB5BDF /* Answers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Answers.m; path = Qwizzle/Answers.m; sourceTree = "<group>"; };
+		8186C2FB1703E5B000CB5BDF /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Question.h; path = Qwizzle/Question.h; sourceTree = "<group>"; };
+		8186C2FC1703E5B000CB5BDF /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Question.m; path = Qwizzle/Question.m; sourceTree = "<group>"; };
+		8186C2FE1703E5B000CB5BDF /* Quiz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quiz.h; path = Qwizzle/Quiz.h; sourceTree = "<group>"; };
+		8186C2FF1703E5B100CB5BDF /* Quiz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Quiz.m; path = Qwizzle/Quiz.m; sourceTree = "<group>"; };
 		B877B19A16FFD25D00007668 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B877B283170108EE00007668 /* Storyboard-old.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Storyboard-old.storyboard"; sourceTree = "<group>"; };
 		B877B288170109E600007668 /* QWZCreateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QWZCreateView.h; sourceTree = "<group>"; };
@@ -146,6 +146,12 @@
 		E873E66016FCF6640097F4F2 = {
 			isa = PBXGroup;
 			children = (
+				8186C2FE1703E5B000CB5BDF /* Quiz.h */,
+				8186C2FF1703E5B100CB5BDF /* Quiz.m */,
+				8186C2FB1703E5B000CB5BDF /* Question.h */,
+				8186C2FC1703E5B000CB5BDF /* Question.m */,
+				8186C2F81703E5AF00CB5BDF /* Answers.h */,
+				8186C2F91703E5AF00CB5BDF /* Answers.m */,
 				B8ECEB7C170F7C3800F6F155 /* QWZDataModel.xcdatamodeld */,
 				B8ECEB7A170F7B7D00F6F155 /* QWZdatabase.sqlite */,
 				B8EF9446170D1D4200FCBAB5 /* libsqlite3.dylib */,
@@ -198,12 +204,6 @@
 				E873E6B816FD40020097F4F2 /* QWZTakeQwizzleViewController.m */,
 				E873E6BC16FD41730097F4F2 /* QWZViewQwizzleViewController.h */,
 				E873E6BD16FD41730097F4F2 /* QWZViewQwizzleViewController.m */,
-				8186C2FE1703E5B000CB5BDF /* Quiz.h */,
-				8186C2FF1703E5B100CB5BDF /* Quiz.m */,
-				8186C2FB1703E5B000CB5BDF /* Question.h */,
-				8186C2FC1703E5B000CB5BDF /* Question.m */,
-				8186C2F81703E5AF00CB5BDF /* Answers.h */,
-				8186C2F91703E5AF00CB5BDF /* Answers.m */,
 				E833CF861707681A0006B832 /* Storyboard_v2.storyboard */,
 				E833CF8E170904150006B832 /* UIView+FindFirstResponder.h */,
 				E833CF8F170904150006B832 /* UIView+FindFirstResponder.m */,
