@@ -8,13 +8,16 @@
 
 #import "QWZCreateQwizzleViewController.h"
 #import "QWZQwizzleViewController.h"
+#import "QWZAppDelegate.h"
 #import "QWZQuiz.h"
 #import "QWZQuizSet.h"
 
 #import "UIView+FindFirstResponder.h"
 
 @interface QWZCreateQwizzleViewController ()
-
+{
+    NSManagedObjectContext *context; 
+}
 @end
 
 @implementation QWZCreateQwizzleViewController
@@ -27,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    QWZAppDelegate *delegate=[[UIApplication sharedApplication] delegate];
+    context =[delegate managedObjectContext];
     
     // Do any additional setup after loading the view from its nib.
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
@@ -163,7 +168,6 @@
 }
 
 // CreateNewQuiz will create a new quiz, should check & validate every question here.
-<<<<<<< HEAD
 #pragma submit
 //get the last record nubmer ...
 -(NSInteger)getQuizID{
@@ -191,12 +195,10 @@
     return q_id;
     
 }
-=======
->>>>>>> parent of 6fbc898... it need little touch to be finished.
 - (IBAction)submitAQwizzle:(id)sender
 {
+    
     NSLog(@"Submitting a Qwizzle, validation in process");
-<<<<<<< HEAD
    
     NSInteger qwz_id=[self getQuizID];
     NSInteger q_id=[self getQuestionID];
@@ -209,11 +211,24 @@
     //set qwz id
     [quizObj setValue:[NSNumber numberWithInt:qwz_id]  forKey:@"qwz_id"];
 
-=======
->>>>>>> parent of 6fbc898... it need little touch to be finished.
     
+    //set title for quiz entity
+    UITextField *title = (UITextField *)[scrollView viewWithTag:25];
+    NSString *titleText = [title text];
+     if (titleText != nil && ![titleText isEqualToString:@""]) {
+         [quizObj setValue:titleText forKey:@"title"];
+        
+          }
+    
+     NSError *error = nil;
+    
+   
+    //add quiz
+    [context save:&error];
+  
     // Validate code may go here
     NSInteger emptyCount = 0;
+          
     for (NSInteger i = 0; i < [controlList count]; i++) {
         NSLog(@"%d of %d) %@", i, [controlList count], [[controlList objectAtIndex:i] text]);
         
@@ -224,11 +239,27 @@
         }
         else {
             NSLog(@"Question detected!: %@", [text copy]);
-            [questionList addObject:[text copy]];
+            
+            //establish question obj for insert
+            NSEntityDescription *questionEntity = [NSEntityDescription entityForName:@"Question" inManagedObjectContext:context];
+            NSManagedObject *questionObj=[[NSManagedObject alloc]initWithEntity:questionEntity insertIntoManagedObjectContext:context];
+
+            //set quiz id
+            [questionObj setValue:[NSNumber numberWithInt:qwz_id]  forKey:@"qwz_id"];
+            
+            //set question id
+            [questionObj setValue:[NSNumber numberWithInt:((q_id+i)-emptyCount)]  forKey:@"q_id"];
+
+            [questionObj setValue:text forKey:@"question"];
+            //[questionList addObject:[text copy]];
+            
+            //add question
+             [context save:&error];
         }
     }
-    
-    if ([questionList count] == 0) {
+     
+     /*
+    if (nQuestions == 0) {
         // It's all empty, show some alert
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops" message:@"You should add some question before you go." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
@@ -239,22 +270,27 @@
         UITextField *title = (UITextField *)[scrollView viewWithTag:25];
         NSString *titleText = [title text];
         if (titleText == nil || [titleText isEqualToString:@""]) {
-            quizSet = [[QWZQuizSet alloc] init];
+            
+            
+           // quizSet = [[QWZQuizSet alloc] init];
         }
         else {
             quizSet = [[QWZQuizSet alloc] initWithTitle:[titleText copy]];
         }
-        
+       
+      
+         //added by core data
         for (NSInteger i = 0; i < [questionList count]; i++) {
             [quizSet addQuiz:[[QWZQuiz alloc] initWithQuestion:[questionList objectAtIndex:i]]];
         }
+         */
         
         // Submit a qwizzle to parents' viewcontroller
         [origin submitAQwizzle:quizSet];
         
         // Dismiss this view
         [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-    }
+
 }
 
 - (IBAction)cancel:(id)sender
