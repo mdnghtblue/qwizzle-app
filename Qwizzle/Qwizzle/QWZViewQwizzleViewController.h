@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Quiz.h" // this it will be used for connection entitiy.
 @class QWZQuizSet;
 
 #define OFFSET 40
