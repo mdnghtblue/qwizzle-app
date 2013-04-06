@@ -25,9 +25,9 @@
         <relationship name="contains" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QWZQuizEntity" inverseName="containedBy" inverseEntity="QWZQuizEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="QWZAnsweredQuizEntity" positionX="169" positionY="174" width="128" height="105"/>
-        <element name="QWZAnsweredQuizSetEntity" positionX="313" positionY="306" width="128" height="105"/>
-        <element name="QWZQuizEntity" positionX="52" positionY="336" width="128" height="105"/>
-        <element name="QWZQuizSetEntity" positionX="-36" positionY="171" width="128" height="105"/>
+        <element name="QWZAnsweredQuizSetEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZQuizEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZQuizSetEntity" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="QWZAnsweredQuizEntity" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>
